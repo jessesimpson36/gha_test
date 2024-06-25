@@ -15,6 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: echo 1
+        run: echo ${GITHUB_REF_NAME}
+      - name: echo 2
+        run: echo ${GITHUB_REF_NAME} | awk -F '+' '{print $1}'
+      - name: echo 3
+        run: echo ${GITHUB_REF_NAME} | awk -F '+' '{print $1}' | IFS=. read major minor patch && echo "MAJOR_VERSION=$major"
+
       - name: Parse major version number
         id: get-major-version
         run: echo ${GITHUB_REF_NAME} | awk -F '+' '{print $1}' | IFS=. read major minor patch && echo "MAJOR_VERSION=$major" | tee "$GITHUB_OUTPUT"
