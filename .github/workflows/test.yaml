@@ -1,0 +1,31 @@
+
+on:
+  push:
+    tags:
+      # Example: 8.4.1
+      - 8\.\d+\.\d+
+jobs:
+  release_script:
+    if: ! contains($GITHUB_REF_NAME, "+")
+    runs-on: ubuntu-latest
+    name: Build release script
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse major version number
+        id: get-major-version
+        run: echo "$GITHUB_REF_NAME" | IFS=. read major minor patch && echo "MAJOR_VERSION=$major" >> "$GITHUB_OUTPUT"
+
+      - name: Parse minor version number
+        id: get-minor-version
+        run: echo "$GITHUB_REF_NAME" | IFS=. read major minor patch && echo "MINOR_VERSION=$minor" >> "$GITHUB_OUTPUT"
+
+      - name: test minor
+        if: ${{ steps.get-major-version.outputs.MAJOR_VERSION == 8 && steps.get-minor-version.outputs.MINOR_VERSION >= 5 }}
+        run: echo "retrieving assets from camunda/camunda"
+
+
+      - name: test minor 2
+        if: ${{ steps.get-major-version.outputs.MAJOR_VERSION == 8 && steps.get-minor-version.outputs.MINOR_VERSION < 5 }}
+        run: echo "retrieving assets from camunda/operate"
+
