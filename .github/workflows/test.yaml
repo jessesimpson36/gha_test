@@ -6,7 +6,6 @@ on:
       - 8\.\d+\.\d+
 jobs:
   release_script:
-    if: ! contains($GITHUB_REF_NAME, "+")
     runs-on: ubuntu-latest
     name: Build release script
     steps:
