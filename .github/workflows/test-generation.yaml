@@ -32,3 +32,8 @@ jobs:
       - name: get operate assets from operate
         if: ${{ steps.get-major-version.outputs.MAJOR_VERSION == 8 && steps.get-minor-version.outputs.MINOR_VERSION < 5 }}
         run: echo "retrieving assets from camunda/operate"
+
+      - name: debug
+        run: echo ${{ steps.get-major-version.outputs.MAJOR_VERSION }}
+      - name: debug2
+        run: echo ${{ steps.get-major-version.outputs.MINOR_VERSION }}
